@@ -20,7 +20,7 @@ devident_t* devident_new(GError** error) {
 		return NULL;
 	}
 
-	if (!g_strcmp0(model, "Pine64 PinePhone Braveheart (1.1)")) {
+	if (!g_str_has_prefix(model, "Pine64 PinePhone")) {
 		self->type = DEVIDENT_TYPE_PHONE;
 		self->model = g_strdup("PinePhone Braveheart");
 		self->rev = g_strdup("1.1");
