@@ -23,7 +23,7 @@ devident_t* devident_new(GError** error) {
 	if (g_str_has_prefix(model, "Pine64 PinePhone")) {
 		self->type = DEVIDENT_TYPE_PHONE;
 		self->model = g_strdup("PinePhone");
-		gchar* v = g_strsplit(model, " ");
+		gchar** v = g_strsplit(model, " ", 0);
 		if (v == NULL) {
 			g_set_error(error, 0, 0, "Failed to split string");
                 	g_clear_pointer(&model, g_free);
