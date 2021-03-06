@@ -20,10 +20,19 @@ devident_t* devident_new(GError** error) {
 		return NULL;
 	}
 
-	if (!g_str_has_prefix(model, "Pine64 PinePhone")) {
+	if (g_str_has_prefix(model, "Pine64 PinePhone")) {
 		self->type = DEVIDENT_TYPE_PHONE;
-		self->model = g_strdup("PinePhone Braveheart");
-		self->rev = g_strdup("1.1");
+		self->model = g_strdup("PinePhone");
+		gchar* v = g_strsplit(model, " ");
+		if (v == NULL) {
+			g_set_error(error, 0, 0, "Failed to split string");
+                	g_clear_pointer(&model, g_free);
+        		g_free(self);
+			return NULL;
+		}
+		v[2][strlen(v[2] - 1)] = 0;
+		self->rev = (gchar*)(v[2] + 1);
+		g_strfreev(v);
 		self->maker = g_strdup("PINE64");
 		self->touchinput_path = "/dev/input/event1";
 		self->screen_name = "DSI-1";
